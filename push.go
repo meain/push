@@ -194,6 +194,7 @@ func transferFile(filePath string) string {
 
 func transferPushFile(token string, device string, fileName string) error {
 	s := transferFile(fileName)
+	fmt.Println(s)
 
 	err := pushNote("Message", s, token, device)
 	if err != nil {

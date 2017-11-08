@@ -8,7 +8,7 @@ Just push a simple note to pushbullet or send a file link to pushbullet after up
 
 ```sh
 # push note
-push note ";)"
+push note "Get Schwifty"
 
 # push file
 push file todo.md
