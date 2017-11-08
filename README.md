@@ -1,4 +1,4 @@
-# Push
+# Push [![Build Status](https://travis-ci.org/meain/push.svg?branch=master)](https://travis-ci.org/meain/push)
 
 > [pushbullet](https://www.pushbullet.com/) + [transfer.sh](https://transfer.sh/)
 
