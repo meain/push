@@ -32,13 +32,15 @@ func transferFileOrFolder(name string) (string, error) {
 	case mode.IsDir():
 		file := createZip(name)
 		fmt.Println("Pushing folder: ", os.Args[2])
-		return transfersh.TransferFile(file), nil
+		s := transfersh.TransferFile(file)
+		return s, nil
 	case mode.IsRegular():
 		fmt.Println("Pushing file: ", os.Args[2])
-		return transfersh.TransferFile(name), nil
+		s := transfersh.TransferFile(name)
+		return s, nil
 	}
 
-	return "", errors.New("Could not upload file to transfer.sh")
+	return "", errors.New("Could not detect file type")
 }
 
 func transferPushFile(token string, device string, fileName string) error {
@@ -80,11 +82,13 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		fmt.Println("✓ Push complete")
 	case "file":
 		err := transferPushFile(conf.Token, conf.Device, os.Args[2])
 		if err != nil {
 			log.Fatal(err)
 		}
+		fmt.Println("✓ Push complete")
 	default:
 		printUsage()
 	}
