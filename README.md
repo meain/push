@@ -4,6 +4,8 @@
 
 Just push a simple note to [pushbullet](https://www.pushbullet.com/) or send a file link to pushbullet after uploading it to [transfer.sh](https://transfer.sh/)
 
+![screencast](https://i.imgur.com/EnCKJTE.gif)
+
 ## Installation
 
 Download binary from [releases page](https://github.com/meain/push/releases)
@@ -35,4 +37,7 @@ push note "Get Schwifty"
 
 # push file
 push file todo.md
+
+# push folder ( will upload as zip )
+push file todoDir
 ```
