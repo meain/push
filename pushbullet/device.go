@@ -36,11 +36,11 @@ func GetDevices(token string) []Device {
 }
 
 // GetDefaultDevice return data about the device user would like to use
-func GetDefaultDevice(deviceName string, token string) (Device, error) {
+func GetDefaultDevice(iden string, token string) (Device, error) {
 	var userDevice Device
 	devices := GetDevices(token)
 	for _, v := range devices {
-		if strings.Compare(v.Nick, deviceName) == 0 {
+		if strings.Compare(v.Iden, iden) == 0 {
 			userDevice = v
 		}
 	}
