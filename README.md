@@ -15,19 +15,16 @@ Download binary from [releases page](https://github.com/meain/push/releases)
 ```sh
 go get github.com/meain/push
 cd $GOPATH/src/github.com/meain/push
-go install
+go install cmd/push/push.go
 ```
 
 ## Configure
 
-Add a yaml file to your home directory named `~/.push.yaml` with contents like below
-
-```yaml
-token: "<YOUR_PUSHBULLET_TOKEN>"
-device: "<YOUR_DEVICE_NAME>"
+Once installed run 
+```bash
+push conf
 ```
-
-You can get pushbullet api token from https://www.pushbullet.com/#settings/account
+It will guide you through the configuration. It will guide you through the configuration
 
 ## Usage
 
@@ -40,4 +37,7 @@ push file todo.md
 
 # push folder ( will upload as zip )
 push file todoDir
+
+# Change configuration of push
+push conf [deivice|token]
 ```
