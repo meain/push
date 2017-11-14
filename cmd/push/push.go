@@ -59,6 +59,7 @@ func transferPushFile(token string, device string, fileName string) error {
 }
 
 func getDeviceChoice(token string) (string, error) {
+	fmt.Println("\n\nCHOOSE DEVICE")
 	devices := pushbullet.GetDevices(token)
 	var usableDevices []pushbullet.Device
 	for _, v := range devices {
@@ -85,9 +86,10 @@ func getDeviceChoice(token string) (string, error) {
 }
 
 func getUserToken() string {
+	fmt.Println("ADD TOKEN")
 	fmt.Println("Get your pushbullet api token from here:")
 	fmt.Println("https://www.pushbullet.com/#settings/account")
-	fmt.Print("\nEnter token: ")
+	fmt.Print("Enter token: ")
 	var token string
 	fmt.Scanln(&token)
 	return token
@@ -110,7 +112,20 @@ conf - configure push vriables ( writes to ~/.push.yaml file )
 func main() {
 	var conf configure.Conf
 	confFile := "~/.push.yaml"
-	conf.GetConf(confFile)
+	err := conf.GetConf(confFile)
+	if err != nil {
+		fmt.Println("Could not read config file. Set it up here")
+		fmt.Println("")
+
+		token := getUserToken()
+		conf.SetToken(confFile, token)
+
+		iden, err := getDeviceChoice(conf.Token)
+		if err != nil {
+			log.Fatal(err)
+		}
+		conf.SetDefaultDevice(confFile, iden)
+	}
 
 	switch os.Args[1] {
 	case "note":
@@ -134,7 +149,7 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Println("✓ Push complete")
-	case "configure":
+	case "conf":
 		if len(os.Args) == 2 {
 			token := getUserToken()
 			conf.SetToken(confFile, token)
