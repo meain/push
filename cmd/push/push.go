@@ -85,13 +85,33 @@ func getDeviceChoice(token string) (string, error) {
 }
 
 func getUserToken() string {
-	fmt.Println("Pushbullet token")
 	fmt.Println("Get your pushbullet api token from here:")
 	fmt.Println("https://www.pushbullet.com/#settings/account")
-	fmt.Print("Enter token: ")
-	var token string
-	fmt.Scanln(&token)
-	return token
+
+	var conf configure.Conf
+	confFile := "~/.push.yaml"
+	err := conf.GetConf(confFile)
+	if err == nil {
+		prompt := promptui.Prompt{
+			Label:   "Token",
+			Default: conf.Token,
+		}
+
+		result, err := prompt.Run()
+		if err != nil {
+			log.Fatal(err)
+		}
+		return result
+	}
+	prompt := promptui.Prompt{
+		Label: "Token",
+	}
+
+	result, err := prompt.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result
 }
 
 func printUsage() {
