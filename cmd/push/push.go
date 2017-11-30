@@ -132,7 +132,7 @@ func main() {
 	var conf configure.Conf
 	confFile := "~/.push.yaml"
 	err := conf.GetConf(confFile)
-	if err != nil {
+	if err != nil && os.Args[1] != "conf"{
 		fmt.Println("Could not read config file. Set it up here")
 		fmt.Println("")
 
