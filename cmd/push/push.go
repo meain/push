@@ -6,9 +6,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	"github.com/jhoonb/archivex"
+	"github.com/manifoldco/promptui"
 
 	configure "github.com/meain/push/configure"
 	pushbullet "github.com/meain/push/pushbullet"
@@ -23,7 +23,6 @@ func createZip(source string) string {
 	zip.Close()
 	return zipfile
 }
-
 func transferFileOrFolder(name string) (string, error) {
 	fi, err := os.Stat(name)
 	if err != nil {
@@ -59,7 +58,7 @@ func transferPushFile(token string, device string, fileName string) error {
 }
 
 func getDeviceChoice(token string) (string, error) {
-	fmt.Println("\n\nCHOOSE DEVICE")
+	// fmt.Println("\n\nCHOOSE DEVICE")
 	devices := pushbullet.GetDevices(token)
 	var usableDevices []pushbullet.Device
 	for _, v := range devices {
@@ -67,26 +66,26 @@ func getDeviceChoice(token string) (string, error) {
 			usableDevices = append(usableDevices, v)
 		}
 	}
-	for i, d := range usableDevices {
-		if i < 9 {
-			fmt.Println("0" + strconv.Itoa(i+1) + "| " + d.Nick + "  ( " + d.Iden + " )")
-		} else { // Hopefully people are sane
-			fmt.Println(strconv.Itoa(i+1) + "| " + d.Nick + "  ( " + d.Iden + " )")
-		}
+	var deviceStrings []string
+	for _, d := range usableDevices {
+		deviceStrings = append(deviceStrings, d.Nick+"  ( "+d.Iden+" )")
 	}
-	fmt.Print("Enter device number: ")
-	var choice string
-	fmt.Scanln(&choice)
-	choiceNumber, err := strconv.Atoi(choice)
+	prompt := promptui.Select{
+		Label: "Select device",
+		Items: deviceStrings,
+	}
+
+	i, _, err := prompt.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
-	iden := usableDevices[choiceNumber-1].Iden
+	choiceNumber := i
+	iden := usableDevices[choiceNumber].Iden
 	return iden, nil
 }
 
 func getUserToken() string {
-	fmt.Println("ADD TOKEN")
+	fmt.Println("Pushbullet token")
 	fmt.Println("Get your pushbullet api token from here:")
 	fmt.Println("https://www.pushbullet.com/#settings/account")
 	fmt.Print("Enter token: ")
