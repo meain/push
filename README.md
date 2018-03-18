@@ -15,6 +15,7 @@ Download binary from [releases page](https://github.com/meain/push/releases)
 ```sh
 go get github.com/meain/push
 cd $GOPATH/src/github.com/meain/push
+go get ./...
 go install cmd/push/push.go
 ```
 
